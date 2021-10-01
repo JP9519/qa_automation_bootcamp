@@ -9,8 +9,9 @@ public class Test1 extends Base{
     }
 
     @Test
-    public void test(){
+    public void test() throws InterruptedException {
         driver.get("https://www.google.com");
+        Thread.sleep(5000);
     }
 
     @AfterTest
