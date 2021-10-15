@@ -98,7 +98,6 @@ public class CheckoutPage {
     }
 
     public boolean TotalUnitPriceIsCorrect() {
-
         int flag = 0;
 
         for (int i = 0; i < listUnitPrice.size(); i++) {
@@ -117,7 +116,7 @@ public class CheckoutPage {
                 flag += 0;
             }
         }
-        return flag ==3;
+        return flag == listUnitPrice.size();
     }
 
 

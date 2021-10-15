@@ -66,6 +66,10 @@ public class OrderClothes extends Base {
     }
 
 
+    @AfterMethod
+    public void AfterMethod(){
+    }
+
     @AfterTest
     public void closeDriver(){
         mainpage.logout();
