@@ -6,12 +6,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class CheckoutPage {
     private final WebDriver driver;
+    public static ArrayList<String> quantity= new ArrayList<String>();
 
     @FindBy(xpath = "//*[@class='cart_unit']//span[@class ='price' and contains(@id,'product_price')]")
     private List<WebElement> listUnitPrice;
@@ -160,9 +162,20 @@ public class CheckoutPage {
         return flag;
     }
 
-    public void QuantityIsCorrect(){
-        ClothesSpecsPage object = new ClothesSpecsPage(driver);
-        List <String> quantity = object.getCantidad();
+    public boolean QuantityIsCorrect(){
         System.out.println(quantity);
+        Boolean flag = true;
+        if (quantity.size() == listQuantity.size()){
+            for(int i = 0;i< quantity.size();i++){
+                String quantityFromPage = listQuantity.get(i).getAttribute("value");
+                if(quantity.get(i) == quantityFromPage){
+                    flag = true;
+                }
+                else{
+                    flag= false;
+                }
+            }
+        }
+        return flag;
     }
 }

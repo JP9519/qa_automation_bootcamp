@@ -46,11 +46,11 @@ public class OrderClothes extends Base {
     }
 
     @Test(dataProvider = "adding product",dataProviderClass = SignUpDataProvider.class)
-    public void testProducts(String index,int i) {
+    public void testProducts(String index) {
         mainpage.clickOnWomenTab();
         womenPage.selectClothes(Integer.parseInt(index));
         Assert.assertTrue(clothesSpecsPage.imagesQuantityisCorrect());
-        clothesSpecsPage.AddToCart(i);
+        clothesSpecsPage.AddToCart();
         successfullyAddedPage.ClickOnContinueShopping();
         Assert.assertTrue(successfullyAddedPage.icnSuccessAddedIsDisplayed());
 
@@ -63,7 +63,7 @@ public class OrderClothes extends Base {
         Assert.assertTrue(checkoutPage.TotalIsCorrect());
         Assert.assertTrue(checkoutPage.lblQuantityProductAddedToCartIsCorrect());
         checkoutPage.CheckoutOrder();
-        checkoutPage.QuantityIsCorrect();
+        Assert.assertTrue(checkoutPage.QuantityIsCorrect());
         Assert.assertTrue(checkoutPage.lblSuccessOrderIsDisplayed());
     }
 

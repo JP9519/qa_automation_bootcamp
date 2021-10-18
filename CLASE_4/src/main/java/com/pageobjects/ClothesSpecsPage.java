@@ -7,16 +7,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ClothesSpecsPage {
 
     private final WebDriver driver;
-    private ArrayList<String> quantity= new ArrayList<String>();
-
 
     @FindBy(id = "short_description_content")
     private WebElement contentDescription;
@@ -51,11 +47,15 @@ public class ClothesSpecsPage {
         return (int)Math.floor (Math.random() * (max - min) + min);
     }
 
-    public void AddToCart(int i){
+    public void AddToCart(){
+
+        CheckoutPage obj = new CheckoutPage(driver);
+        List<String> vectorQuantity = obj.quantity;
 
         int n = getRandomNumber(2,5);
+
         PrintSpecs(contentDescription,contentPrice);
-        quantity.add(String.valueOf(n));
+        vectorQuantity.add(String.valueOf(n));
 
         if(inputQuantity.getAttribute("value") != null){
             inputQuantity.clear();
@@ -73,7 +73,7 @@ public class ClothesSpecsPage {
 
         btnAddToCart.click();
 
-        System.out.println(quantity);
+        System.out.println(vectorQuantity);
 
     }
     public boolean imagesQuantityisCorrect(){
@@ -86,8 +86,5 @@ public class ClothesSpecsPage {
         }
     }
 
-    public List<String> getCantidad(){
-        return quantity ;
-    }
 
 }

@@ -60,7 +60,7 @@ public class SignUpDataProvider {
     @DataProvider(name = "adding product")
     public Object[][] addingProduct() {
         return new Object[][]{
-                {"0",0},{"4",1},{"5",2}
+                {"0"},{"4"},{"5"}
         };
     }
 
