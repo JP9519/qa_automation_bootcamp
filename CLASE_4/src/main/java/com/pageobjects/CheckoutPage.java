@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class CheckoutPage {
     private final WebDriver driver;
@@ -53,6 +54,9 @@ public class CheckoutPage {
     @FindBy(xpath ="//*[@class='dark' and contains(.,'Your order on My Store is complete.')]")
     private WebElement lblSuccessOrder;
 
+    @FindBy(id="summary_products_quantity")
+    private WebElement lblTotalProductsCart;
+
     public CheckoutPage (WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver,this);
@@ -97,17 +101,36 @@ public class CheckoutPage {
         return lblSuccessOrder.isDisplayed();
     }
 
+    public boolean lblQuantityProductAddedToCartIsCorrect(){
+
+        int totalQuantity = 0;
+
+        for (int i = 0; i < listQuantity.size(); i++) {
+            int quantityProduct = Integer.parseInt(listQuantity.get(i).getAttribute("value"));
+            totalQuantity += quantityProduct;
+        }
+
+        String msg = String.valueOf(totalQuantity) + " Products";
+        System.out.println(msg);
+        System.out.println(lblTotalProductsCart.getText());
+
+        return Objects.equals(lblTotalProductsCart.getText(), msg);
+
+    }
+
     public boolean TotalUnitPriceIsCorrect() {
         int flag = 0;
 
         for (int i = 0; i < listUnitPrice.size(); i++) {
             float priceProduct = Float.valueOf(listUnitPrice.get(i).getText().substring(1, 6));
             int quantityProduct = Integer.parseInt(listQuantity.get(i).getAttribute("value"));
-            float subTotalProduct = Float.valueOf(listSubTotal.get(i).getText().substring(1, 6));
+            float subTotalProduct = Float.valueOf(listSubTotal.get(i).getText().substring(1));
             float subTotalCalculated = priceProduct * quantityProduct;
-            //System.out.println(priceProduct);
-            //System.out.println(quantityProduct);
-            //System.out.println(subTotalProduct);
+            //System.out.println("Precio unitario: "+ priceProduct);
+            //System.out.println("Cantidad: "+quantityProduct);
+           //System.out.println("Subtotal: "+ listSubTotal.get(i).getText());
+            //System.out.println("Subtotal: "+subTotalProduct);
+            //System.out.println("Subtotal Calculado: "+subTotalCalculated);
 
             if (subTotalProduct == subTotalCalculated) {
                 flag += 1;
@@ -116,6 +139,8 @@ public class CheckoutPage {
                 flag += 0;
             }
         }
+        //System.out.println(flag);
+        //System.out.println(listUnitPrice.size());
         return flag == listUnitPrice.size();
     }
 
@@ -123,16 +148,18 @@ public class CheckoutPage {
     public boolean TotalIsCorrect() {
         boolean flag = false;
         float subTotalCalculated = 0;
-        for (int i = 0; i < listUnitPrice.size(); i++) {
-            float subTotalProduct = Float.valueOf(listSubTotal.get(i).getText().substring(1, 6));
-            subTotalCalculated += subTotalProduct;
-        }
-        float subTotalPage = Float.valueOf(textSubTotal.getText().substring(1,6));
-        float shippingPage = Float.valueOf(textShipping.getText().substring(1,5));
-        float taxesPage = Float.valueOf(textTaxes.getText().substring(1,5));
-        float totalPage = Float.valueOf(textTotal.getText().substring(1,6));
+
+        float subTotalPage = Float.valueOf(textSubTotal.getText().substring(1));
+        float shippingPage = Float.valueOf(textShipping.getText().substring(1));
+        float taxesPage = Float.valueOf(textTaxes.getText().substring(1));
+        float totalPage = Float.valueOf(textTotal.getText().substring(1));
 
         float total = subTotalPage + shippingPage + taxesPage;
+
+        for (int i = 0; i < listUnitPrice.size(); i++) {
+            float subTotalProduct = Float.valueOf(listSubTotal.get(i).getText().substring(1));
+            subTotalCalculated += subTotalProduct;
+        }
 
         if (subTotalPage == subTotalCalculated){
             if(total == totalPage){

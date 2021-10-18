@@ -48,7 +48,7 @@ public class ClothesSpecsPage {
     }
 
     public int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+        return (int)Math.floor (Math.random() * (max - min) + min);
     }
 
     public void AddToCart(int i){
