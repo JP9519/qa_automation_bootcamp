@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -14,8 +15,7 @@ import java.util.Objects;
 public class ClothesSpecsPage {
 
     private final WebDriver driver;
-    private String[] Cantidad = {"","",""};
-    private String[] Precio = {"","",""};;
+    private ArrayList<String> quantity= new ArrayList<String>();
 
 
     @FindBy(id = "short_description_content")
@@ -55,8 +55,7 @@ public class ClothesSpecsPage {
 
         int n = getRandomNumber(2,5);
         PrintSpecs(contentDescription,contentPrice);
-        Cantidad[i] = String.valueOf(n);
-        Precio[i] = contentPrice.getText();
+        quantity.add(String.valueOf(n));
 
         if(inputQuantity.getAttribute("value") != null){
             inputQuantity.clear();
@@ -74,6 +73,8 @@ public class ClothesSpecsPage {
 
         btnAddToCart.click();
 
+        System.out.println(quantity);
+
     }
     public boolean imagesQuantityisCorrect(){
         Select select = new Select(inputSize);
@@ -85,16 +86,8 @@ public class ClothesSpecsPage {
         }
     }
 
-    public void printPriceQuantity(){
-        System.out.println(Arrays.toString(Cantidad));
-        System.out.println(Arrays.toString(Precio));
+    public List<String> getCantidad(){
+        return quantity ;
     }
 
-    public String[] getCantidad(){
-        return Cantidad;
-    }
-
-    public String[] getPrecio(){
-        return Precio;
-    }
 }

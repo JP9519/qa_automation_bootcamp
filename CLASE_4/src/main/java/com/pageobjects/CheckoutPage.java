@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -62,29 +63,6 @@ public class CheckoutPage {
         PageFactory.initElements(driver,this);
     }
 
-    public boolean UnitProductIsCorrect(){
-        System.out.println(listUnitPrice.get(0).getText());
-        System.out.println(listUnitPrice.get(1).getText());
-        System.out.println(listUnitPrice.get(2).getText());
-
-        boolean statement = false;
-        ClothesSpecsPage clothesSpecsPage = new ClothesSpecsPage(driver);
-        String[] listCantidad = clothesSpecsPage.getCantidad();
-        String[] listPrice= clothesSpecsPage.getPrecio();
-        System.out.println(Arrays.toString(listCantidad));
-        System.out.println(Arrays.toString(listPrice));
-
-        for (int i = 0; i < listUnitPrice.size(); i++){
-
-            if(listUnitPrice.get(i).getText().substring(1,5).equals(listPrice[i].substring(1))){
-                statement = true;
-            }
-            else{
-                statement= false;
-            }
-        }
-        return statement;
-    }
     public void CheckoutOrder()  {
         btnProceed.click();
         //Thread.sleep(5000);
@@ -146,8 +124,9 @@ public class CheckoutPage {
 
 
     public boolean TotalIsCorrect() {
-        boolean flag = false;
+        boolean flag = true ;
         float subTotalCalculated = 0;
+        DecimalFormat df = new DecimalFormat("0.00");
 
         float subTotalPage = Float.valueOf(textSubTotal.getText().substring(1));
         float shippingPage = Float.valueOf(textShipping.getText().substring(1));
@@ -159,15 +138,31 @@ public class CheckoutPage {
         for (int i = 0; i < listUnitPrice.size(); i++) {
             float subTotalProduct = Float.valueOf(listSubTotal.get(i).getText().substring(1));
             subTotalCalculated += subTotalProduct;
+            //System.out.println(subTotalProduct);
+            //System.out.println(subTotalCalculated);
         }
+        System.out.println(subTotalCalculated);
+        System.out.println(subTotalPage);
+        System.out.println(total);
+        System.out.println(totalPage);
 
-        if (subTotalPage == subTotalCalculated){
+        double subTotalCalculated2Digits = Math.round(subTotalCalculated*100.0)/100.0;
+        System.out.println(subTotalCalculated2Digits);
+        if (subTotalPage == subTotalCalculated2Digits){
             if(total == totalPage){
                 flag = true;
             }
+            else{
+                flag = false;
+            }
+
         }
-
         return flag;
+    }
 
+    public void QuantityIsCorrect(){
+        ClothesSpecsPage object = new ClothesSpecsPage(driver);
+        List <String> quantity = object.getCantidad();
+        System.out.println(quantity);
     }
 }

@@ -63,6 +63,7 @@ public class OrderClothes extends Base {
         Assert.assertTrue(checkoutPage.TotalIsCorrect());
         Assert.assertTrue(checkoutPage.lblQuantityProductAddedToCartIsCorrect());
         checkoutPage.CheckoutOrder();
+        checkoutPage.QuantityIsCorrect();
         Assert.assertTrue(checkoutPage.lblSuccessOrderIsDisplayed());
     }
 
