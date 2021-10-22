@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
 
-    <name>Ejercicio4</name>
+    <name>Ejercicio_4</name>
 
     <profiles>
         <profile>
