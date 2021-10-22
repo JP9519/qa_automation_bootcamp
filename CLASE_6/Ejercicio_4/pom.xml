@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
 
-    <name>Sample Serenity BDD project using JUnit</name>
+    <name>Ejercicio4</name>
 
     <profiles>
         <profile>
